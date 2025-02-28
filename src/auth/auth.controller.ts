@@ -16,4 +16,9 @@ export class AuthController {
   async signIn(@Body('email') email: string, @Body('password') password: string) {
     return this.authService.signIn(email, password);
   }
+
+  @Post('refresh')
+  async refresh(@Body('refreshToken') refreshToken: string) {
+    return this.authService.refreshToken(refreshToken);
+  }
 }

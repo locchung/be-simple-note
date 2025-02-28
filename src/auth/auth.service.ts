@@ -48,6 +48,18 @@ export class AuthService {
     });
 
     const token = this.jwtService.sign({ userId: user._id });
+    const refreshToken = this.jwtService.sign({ userId: user._id }, { expiresIn: '7d' });
+    return { accessToken: token, refreshToken, userId: user._id, email: user.email };
+  }
+
+  async refreshToken(refreshToken: string) {
+    const decoded = this.jwtService.verify(refreshToken);
+    if (!decoded) throw new UnauthorizedException('Invalid token');
+
+    const user = await this.userService.findOne(decoded.userId);
+    if (!user) throw new UnauthorizedException('Invalid token');
+
+    const token = this.jwtService.sign({ userId: user._id });
     return { accessToken: token, userId: user._id, email: user.email };
   }
 }
