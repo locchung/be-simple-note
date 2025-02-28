@@ -6,12 +6,13 @@ import { JwtModule } from '@nestjs/jwt';
 import { usersProviders } from 'src/users/users.providers';
 import { DatabaseModule } from 'src/database/database.module';
 import { JwtStrategy } from './strategies/jwt.strategy';
+import { config } from '../config';
 
 @Module({
   imports: [
     DatabaseModule,
     JwtModule.register({
-      secret: 'my_secret_key',
+      secret: config.secretKey,
       signOptions: { expiresIn: '1h' },
     }),
   ],

@@ -11,6 +11,7 @@ const NoteSchema = new mongoose.Schema({
   updated_at: { type: Date, default: Date.now }
 });
 
+NoteSchema.index({ title: 'text', content: 'text' });
 NoteSchema.plugin(softDelete, { deletedAt: true, overrideMethods: true, indexFields: ['deleted', 'deletedAt'] });
 
 const Note = mongoose.model('Note', NoteSchema);

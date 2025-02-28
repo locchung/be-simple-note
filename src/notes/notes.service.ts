@@ -66,4 +66,23 @@ export class NotesService {
 
     return notes;
   }
+
+  async searchNotes(query: string, userId: string) {
+    // const notes = await this.noteModel.find({
+    //   user_id: userId,
+    //   $text: { $search: query }
+    // });
+
+    const regex = new RegExp(query, 'i'); // 'i' for case-insensitive
+
+    const notes = await this.noteModel.find({
+      user_id: userId,
+      $or: [
+        { title: { $regex: regex } },
+        { content: { $regex: regex } }
+      ]
+    });
+
+    return notes;
+  }
 }

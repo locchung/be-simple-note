@@ -1,10 +1,11 @@
 import { Mongoose } from 'mongoose';
 import Note from './schemas/note.schema';
+import { Constants } from 'src/constants/constants';
 
 export const notesProviders = [
   {
-    provide: 'NOTE_MODEL',
+    provide: Constants.note,
     useFactory: (mongoose: Mongoose) => Note,
-    inject: ['DATABASE_CONNECTION'],
+    inject: [Constants.db],
   },
 ];

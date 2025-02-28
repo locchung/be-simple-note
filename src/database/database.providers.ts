@@ -1,10 +1,12 @@
 
 import * as mongoose from 'mongoose';
+import { config } from 'src/config';
+import { Constants } from 'src/constants/constants';
 
 export const databaseProviders = [
   {
-    provide: 'DATABASE_CONNECTION',
+    provide: Constants.db,
     useFactory: (): Promise<typeof mongoose> =>
-      mongoose.connect('mongodb://localhost:27017/note-app'),
+      mongoose.connect(config.mongoUri),
   },
 ];

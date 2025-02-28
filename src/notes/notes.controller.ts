@@ -25,17 +25,20 @@ export class NotesController {
     return await this.notesService.create(createNoteDto);
   }
 
+  @Get('/search')
+  @UseGuards(JwtAuthGuard)
+  async searchNotes(@Request() req) {
+    const userId = req.user.userId;
+    const query = req.query.querySearch;
+    return await this.notesService.searchNotes(query, userId);
+  }
+
   @Get()
   @UseGuards(JwtAuthGuard)
   async getUserNotes(@Request() req) {
     const userId = req.user.userId;
     return await this.notesService.findUserNotes(userId);
   }
-
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.notesService.findOne(+id);
-  // }
 
   @Patch(':id')
   @UseGuards(JwtAuthGuard)
